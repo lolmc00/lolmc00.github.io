@@ -1,9 +1,15 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
 import { Appbar, Banner, Layout, SEO, Info } from "../components"
-import { rhythm } from "../utils/typography"
 
+import { rhythm } from "../utils/typography"
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    font: 400 18px Spoqa Han Sans Regular, sans-serif;
+  }
+`
 
 const BlogIndex = (props) => {
   const { data } = props
@@ -12,6 +18,7 @@ const BlogIndex = (props) => {
   
   return (
     <div>
+      <GlobalStyles />
       <Appbar title={siteTitle}/>
       {/* <Info /> */}
       <Banner />
