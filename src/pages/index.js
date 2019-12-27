@@ -1,21 +1,22 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import { Appbar, Banner, Layout, SEO, Info } from "../components"
 import { rhythm } from "../utils/typography"
 
-class BlogIndex extends React.Component {
-  render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
-    const posts = data.allMarkdownRemark.edges
 
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
+const BlogIndex = (props) => {
+  const { data } = props
+  const siteTitle = data.site.siteMetadata.title
+  const posts = data.allMarkdownRemark.edges
+  
+  return (
+    <div>
+      <Appbar title={siteTitle}/>
+      {/* <Info /> */}
+      <Banner />
+      <Layout location={props.location} title={siteTitle}>
         <SEO title="All posts" />
-        <Bio />
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
@@ -43,10 +44,9 @@ class BlogIndex extends React.Component {
           )
         })}
       </Layout>
-    )
-  }
+    </div>
+  )
 }
-
 export default BlogIndex
 
 export const pageQuery = graphql`
@@ -56,7 +56,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMarkdownRemark(limit: 6, sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           excerpt
