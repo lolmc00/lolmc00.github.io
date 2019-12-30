@@ -24,7 +24,7 @@ const Banner = (props) => {
         alt={"banner"}
         style={{
           width: "100%",
-          height: "500px",
+          height: "380px",
           borderBottom: "2px solid #000"
         }}
       />
