@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link } from "gatsby"
 import Search from "../components/Search"
+import Switch from '@material-ui/core/Switch';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleDarkmode } from '../actions/darkmode';
+import * as actions from '../actions/actionTypes'
 
 const searchIndices = [
   // { name: `Pages`, title: `Pages`, hitComp: `PageHit` },
@@ -15,10 +16,6 @@ const Appbar = (props) => {
   const dispatch = useDispatch();
   const [darkmode] = useSelector(state => [state.darkmode.toJS().darkmode] , []);
 
-  const handleChangeDarkmode = () =>{
-    dispatch(toggleDarkmode());
-  }
-
   const title = props.title;
 
   return(
@@ -28,25 +25,41 @@ const Appbar = (props) => {
         height: "46px",
         position: "fixed",
         top: 0,
-        borderBottom: "2px solid #ddd",
+        borderBottom: darkmode ? "2px solid #555" : "2px solid #ddd",
         zIndex: 10000,
         display: "flex",
-        background: "var(--bg)",
+        background: darkmode ? "#333" : "#f5f5f5",
         transition: "0.3s ease all",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "1em"
       }}>
-        <div className="nav_left"  style={{flexBasis: "33%"}}>
+        <div className="nav_left" style={{flexBasis: "33%"}}>
           #
         </div>
         <div className="nav_mid" style={{flexBasis: "33%", textAlign: "center"}}>
           <Link style={{ boxShadow: `none` }} to={`/`}>
-            {title}
+            <div style={{
+              fontWeight: "bold",
+              color: darkmode ? "#fff" : "#000",
+              transition: "0.3s ease all",
+            }}>{title}</div>
           </Link>
         </div>
-        <div className="nav_right"  style={{flexBasis: "33%", textAlign: "right", display: "flex", justifyContent:"space-around"}}>	
-          <input type="check_darkmode" name="darkmode" onChange={handleChangeDarkmode}/>
+        <div className="nav_right"  style={{flexBasis: "33%", textAlign: "right", display: "flex", justifyContent:"space-between"}}>	
+          <div style={{
+            fontWeight: "bold",
+            color: darkmode ? "#fff" : "#000",
+            transition: "0.3s ease all",
+            }}>
+            Dark Mode: <Switch
+              checked={darkmode}
+              onChange={() => dispatch({type: actions.DARK_MODE_TOGGLE, isDarkmode: !darkmode})}
+              value="darkmode"
+              color="primary"
+              inputProps={{ 'aria-label': 'primary checkbox' }}
+            />
+          </div>
           <Search collapse indices={searchIndices}/>
         </div>
       </div>
