@@ -29,7 +29,7 @@ const Appbar = (props) => {
         zIndex: 10000,
         display: "flex",
         background: darkmode ? "#333" : "#f5f5f5",
-        transition: "0.3s ease all",
+        transition: "0.3s ease background-color",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "1em"
@@ -40,9 +40,9 @@ const Appbar = (props) => {
         <div className="nav_mid" style={{flexBasis: "33%", textAlign: "center"}}>
           <Link style={{ boxShadow: `none` }} to={`/`}>
             <div style={{
-              fontWeight: "bold",
+              fontWeight: "500",
               color: darkmode ? "#fff" : "#000",
-              transition: "0.3s ease all",
+              transition: "0.3s ease color",
             }}>{title}</div>
           </Link>
         </div>

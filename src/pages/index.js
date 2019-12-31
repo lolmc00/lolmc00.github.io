@@ -1,14 +1,32 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
 import { Layout, SEO } from "../components"
-
+import { makeStyles } from '@material-ui/core/styles';
 import { rhythm } from "../utils/typography"
+
+import { useSelector } from 'react-redux';
+
+const useStyles = makeStyles(() => ({
+  link: {
+    padding: "15px 0px",
+    borderTop: "1px solid #888",
+    boxShadow: "none",
+    transition: "0.3s ease background-color",
+    '&:hover': {
+      backgroundColor: "#999",
+    }
+  },
+}));
 
 const BlogIndex = (props) => {
   const { data } = props
   const siteTitle = data.site.siteMetadata.title
   const posts = data.allMarkdownRemark.edges
   
+  const [darkmode] = useSelector(state => [state.darkmode.toJS().darkmode] , []);
+
+  const classes = useStyles();
+
   return (
     <div>
       <Layout location={props.location} title={siteTitle}>
@@ -16,27 +34,25 @@ const BlogIndex = (props) => {
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
-            <article key={node.fields.slug}>
-              <header>
-                <h3
-                  style={{
-                    marginBottom: rhythm(1 / 4),
-                  }}
-                >
-                  <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
+            <Link to={node.fields.slug}>
+              <section key={node.fields.slug}className={classes.link}>
+                <div>
+                  <h3
+                    style={{
+                      color: darkmode ? "#fff":"#000",
+                      transition: "0.3s ease color",
+                      marginBottom: rhythm(1 / 4),
+                    }}
+                  >
                     {title}
-                  </Link>
-                </h3>
-                <small>{node.frontmatter.date}</small>
-              </header>
-              <section>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: node.frontmatter.description || node.excerpt,
-                  }}
-                />
+                  </h3>
+                  <small style={{
+                    color: darkmode ? "#fff":"#000",
+                    transition: "0.3s ease color",
+                  }}>{node.frontmatter.date}</small>
+                </div>
               </section>
-            </article>
+            </Link>
           )
         })}
       </Layout>
@@ -60,7 +76,7 @@ export const pageQuery = graphql`
             slug
           }
           frontmatter {
-            date(formatString: "MMMM DD, YYYY")
+            date(formatString: "YYYY.MM.DD")
             title
             description
           }

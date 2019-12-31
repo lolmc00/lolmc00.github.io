@@ -14,6 +14,7 @@ export default connectSearchBox(({ refine, ...rest }) => {
     alignItems: "center",
     transition: "0.3s ease all",
     backgroundColor: "#eee",
+    borderRadius: "4px",
     }}>
     <Search style={{
       display: "inline-block",
@@ -22,7 +23,7 @@ export default connectSearchBox(({ refine, ...rest }) => {
     }}/>
     <input
       type="text"
-      placeholder="Search"
+      placeholder="Search..."
       aria-label="Search"
       onChange={e => refine(e.target.value)}
       style={{
