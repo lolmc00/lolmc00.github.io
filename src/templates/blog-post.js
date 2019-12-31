@@ -1,10 +1,13 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
-import { Layout, SEO } from "../components"
+import { Utterances, Layout, SEO } from "../components"
 import { rhythm, scale } from "../utils/typography"
 
+import Paper from '@material-ui/core/Paper';
+import { useSelector } from 'react-redux';
+
 const BlogPostTemplate = (props) => {
+  const [darkmode] = useSelector(state => [state.darkmode.toJS().darkmode] , []);
   const post = props.data.markdownRemark
   const siteTitle = props.data.site.siteMetadata.title
   const { previous, next } = props.pageContext
@@ -17,8 +20,9 @@ const BlogPostTemplate = (props) => {
           description={post.frontmatter.description || post.excerpt}
         />
         <article>
-          <header>
-            <h1
+          <Paper style={{padding: "35px 60px", backgroundColor:darkmode ? "#f0f0f0":"#fff"}}>
+          <header style={{borderBottom: "1px solid #ddd"}}>
+            <h1 className="post_title"
               style={{
                 marginTop: rhythm(1),
                 marginBottom: 0,
@@ -26,17 +30,15 @@ const BlogPostTemplate = (props) => {
             >
               {post.frontmatter.title}
             </h1>
-            <p
+            <p className="post_date"
               style={{
-                ...scale(-1 / 5),
                 display: `block`,
-                marginBottom: rhythm(1),
               }}
             >
               {post.frontmatter.date}
             </p>
           </header>
-          <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          <section style={{marginTop:"46px"}}dangerouslySetInnerHTML={{ __html: post.html }} />
           <hr
             style={{
               marginBottom: rhythm(1),
@@ -45,6 +47,7 @@ const BlogPostTemplate = (props) => {
           <footer>
             {/* <Bio /> */}
           </footer>
+          </Paper>
         </article>
 
         <nav>
@@ -73,6 +76,7 @@ const BlogPostTemplate = (props) => {
             </li>
           </ul>
         </nav>
+        <Utterances repo="lolmc00/Blog-Comments" />
       </Layout>
     </div>
   )
@@ -93,7 +97,7 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
+        date(formatString: "YYYY년 MM월 DD일")
         description
       }
     }
